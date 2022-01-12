@@ -19,6 +19,13 @@ atari_spaceinvaders:
   env_id: Atari-Space_Invaders
 
 # -------------------------
+# GymPyBulletDrones
+# -------------------------
+hover_aviary_dreamer:
+  env_id: hover-aviary-dreamer-v0
+  action_dim: 4
+
+# -------------------------
 # DMC
 # -------------------------
 
