@@ -12,6 +12,7 @@ from logging import critical, debug, error, info, warning
 from multiprocessing import Process
 from pathlib import Path
 from typing import Iterator, Optional
+import gc
 
 import mlflow
 import numpy as np
@@ -31,6 +32,7 @@ from pydreamer.models import *
 from pydreamer.models.functions import map_structure, nanmean
 from pydreamer.preprocessing import Preprocessor, WorkerInfoPreprocess
 from pydreamer.tools import *
+
 
 torch.distributions.Distribution.set_default_validate_args(False)
 torch.backends.cudnn.benchmark = True  # type: ignore
@@ -370,6 +372,10 @@ def run(conf):
                      f"  eval: {timer('eval').dt_ms:>4}"
                      f"  other: {timer('other').dt_ms:>4}"
                      )
+                     
+            del losses, batch, wid, obs, state, new_state, loss_metrics, tensors, dream_tensors
+            gc.collect()
+
 
 
 def evaluate(prefix: str,
@@ -576,7 +582,7 @@ def run_generator(env_id,
 def get_profiler(conf):
     if conf.enable_profiler:
         return torch.profiler.profile(
-            # activities=[ProfilerActivity.CUDA],
+            activities=[ProfilerActivity.CUDA],
             schedule=torch.profiler.schedule(wait=10, warmup=10, active=1, repeat=3),
             on_trace_ready=torch.profiler.tensorboard_trace_handler('./log'),
         )
