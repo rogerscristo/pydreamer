@@ -164,19 +164,15 @@ atari:
 gympybulletdrones:
   n_steps: 10_000_000
   n_env_steps: 100_000_000
-  batch_length: 8
-  batch_size: 8
+  batch_length: 40
+  batch_size: 40
   logbatch_interval: 100
-  buffer_size: 2_000_000
   env_id: hover-aviary-dreamer-v0
   action_dim: 4
   env_time_limit: 500  # =1000/action_repeat
   env_action_repeat: 2
   generator_workers: 1
   generator_prefill_steps: 5000
-  deter_dim: 1024
-  hidden_dim: 500
-  map_hidden_dim: 512
   entropy: 1.0e-4
   actor_grad: dynamics
   actor_dist: tanh_normal
